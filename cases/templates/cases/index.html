@@ -1,0 +1,5 @@
+<ul>
+	{% for case in all_cases %}
+	<li> <a href="/cases/{{ case.id }}">{{ case.description}}</a></li>
+	{% endfor %}
+</ul>
