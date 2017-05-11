@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.template import loader
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 from django.http import HttpResponse
@@ -9,11 +9,8 @@ from django.http import HttpResponse
 from .models import Cases
 
 def index(request):
-	all_cases = Cases.objects.all()
 	template = loader.get_template('cases/index.html')
-	context = {
-		'all_cases': all_cases,
-	}
+	context = {'all_cases':  Cases.objects.all()}
 	# all_cases = Cases.objects.all()
 	# html = ''
 	# for case in all_cases:
@@ -21,5 +18,9 @@ def index(request):
 	# 	html += '<a href="' + url + '">' + case.description + '</a><br>'
 	return HttpResponse(template.render(context, request))
 
-def case_detail(request, cases_id):
-	return HttpResponse("<h1>This is the case id :" + str(cases_id) + "</h2>")
+def detail(request, cases_id):
+	try:
+		case = Cases.objects.get(id=cases_id)
+	except Cases.DoesNotExist:
+		raise Http404('Cases Does not exist')
+	return render(request, 'cases/detail.html', {'case':case})
