@@ -10,3 +10,9 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password']
+
+class CasesForm(forms.ModelForm):
+
+    class Meta:
+        model = Cases
+        fields = ['description','case_typ']

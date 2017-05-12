@@ -1,6 +1,6 @@
 from django.views import generic
 from .models import Cases
-from .forms import UserForm
+from .forms import UserForm, CasesForm
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
@@ -49,12 +49,39 @@ def login_user(request):
 
 
 
+
 def index(request):
-    if not request.user.is_authenticated():
-        return render(request, 'cases/login.html')
-    else:
-        cases = Cases.objects.all()
+    cases = Cases.objects.all()
     return render(request, 'cases/index.html', {'cases': cases})
+
+
+
+
+def addCases(request):
+    if not request.user.is_authenticated():
+        return render(request, 'cases/addCases.html')
+    else:
+        form = CasesForm(request.POST or None, request.FILES or None)
+        if form.is_valid():
+            case = form.save(commit=False)
+            case.description = request.description
+            case.case_typ = request.case_typ
+            case.save()
+            return render(request, 'cases/detail.html', {'case': case})
+        context = {
+            "form": form,
+        }
+        return render(request, 'cases/addCases.html', context)
+
+
+
+def logout_user(request):
+    logout(request)
+    form = UserForm(request.POST or None)
+    context = {
+        "form": form,
+    }
+    return render(request, 'cases/login.html', context)        
 
 
 
