@@ -79,7 +79,17 @@ def logout_user(request):
     context = {
         "form": form,
     }
-    return render(request, 'cases/login.html', context)        
+    return render(request, 'cases/login.html', context) 
+
+
+
+def detail(request, cases_id):
+    if not request.user.is_authenticated():
+        return render(request, 'cases/login.html')
+    else:
+        user = request.user
+        cases = get_object_or_404(Cases, pk=cases_id)
+return render(request, 'cases/detail.html', {'cases': cases, 'user': user})       
 
 
 
