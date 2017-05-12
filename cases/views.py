@@ -19,7 +19,7 @@ def register(request):
             if user.is_active:
                 login(request, user)
                 cases = Cases.objects.all()
-                return render(request, 'cases/index.html', {'albums': cases})
+                return render(request, 'cases/index.html', {'cases': cases})
     context = {
         "form": form,
     }
@@ -29,6 +29,8 @@ def register(request):
 
 
 def login_user(request):
+    current_user = request.user
+    return HttpResponse(current_user.username)
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -37,7 +39,8 @@ def login_user(request):
             if user.is_active:
                 login(request, user)
                 cases = Cases.objects.all()
-                return render(request, 'cases/index.html', {'albums': cases})
+
+                return render(request, 'cases/index.html', {'cases': cases})
             else:
                 return render(request, 'cases/login.html', {'error_message': 'Your account has been disabled'})
         else:
@@ -45,6 +48,13 @@ def login_user(request):
     return render(request, 'cases/login.html')
 
 
+
+def index(request):
+    if not request.user.is_authenticated():
+        return render(request, 'cases/login.html')
+    else:
+        cases = Cases.objects.all()
+    return render(request, 'cases/index.html', {'cases': cases})
 
 
 
