@@ -1,7 +1,7 @@
 from django.views import generic
 from .models import Cases
 from .forms import UserForm, CasesForm
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.http import HttpResponse
@@ -64,6 +64,7 @@ def addCases(request):
             case = form.save(commit=False)
             case.description = request.POST['description']
             case.case_typ = request.POST['case_typ']
+            case.owner = request.user.id
             case.save()
             return render(request, 'cases/detail.html', {'case': case})
         context = {
@@ -83,14 +84,14 @@ def logout_user(request):
 
 
 
-def detail(request, cases_id):
+def detail(request):
     if not request.user.is_authenticated():
         return render(request, 'cases/login.html')
     else:
-        user = request.user
-        cases = get_object_or_404(Cases, pk=cases_id)
-    return render(request, 'cases/detail.html', {'cases': cases, 'user': user}) 
-    #hkhfkdhfk      
+       
+        cases = Cases.objects.all()
+    return render(request, 'cases/detail.html', {'cases':cases}) 
+
 
 
 

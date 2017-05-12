@@ -11,16 +11,11 @@
         <div class="col-sm-4 col-md-3">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <a href="{% url 'cases:detail' cases.id %}">
-                        {% if album.album_logo %}
-                            <img src="{{ cases.cases_logo.url }}" class="img-responsive">
-                        {% else %}
-                            <h3>No image to display</h3>
-                        {% endif %}
-                    </a>
+                   {% for case in cases %}
                     <h1>{{ cases.case_typ }} </h1><br>
                     <h2>{{ cases.date_added }}</h2><br>
                     <p>{{ cases.description }}</p>
+                     {% endfor %}
                     
                 </div>
             </div>
@@ -30,8 +25,8 @@
         <div class="col-sm-8 col-md-9">
 
             <ul class="nav nav-pills" style="margin-bottom: 10px;">
-                <li role="presentation" class="active"><a href="{% url 'cases:detail' cases.id %}">All cases</a></li>
-                <li role="presentation"><a href="{% url 'cases:addCases' cases.id %}">Add New case</a></li>
+                <li role="presentation" class="active"><a href="{% url 'cases:detail' %}">All cases</a></li>
+                <li role="presentation"><a href="{% url 'cases:addCases' %}">Add New case</a></li>
             </ul>
 
             <div class="panel panel-default">
@@ -53,23 +48,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for case in cases.all %}
+                        {% for case in cases %}
                             <tr>
                                 <td>{{ case.case_typ }}</td>
                                 <td>
-                                    <a target="_blank" href="{{ song.audio_file.url }}">
+                                    <a target="_blank" href="">
                                         <button type="button" class="btn btn-success btn-xs">
                                             <span class="glyphicon glyphicon-play"></span>&nbsp; Play
                                         </button>
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="{% url 'cases:favorite' cases.id %}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if cases.is_favorite %}active{% endif %}"></span></a>
+                                    <a href="" class="btn-favorite"><span class="glyphicon glyphicon-star "></span></a>
                                 </td>
                                 <td>
-                                    <form action="{% url 'cases:deleteCases' case.id  %}" method="post" style="display: inline;">
+                                    <form action="" method="post" style="display: inline;">
                                         {% csrf_token %}
-                                        <input type="hidden" name="cases_id" value="{{ cases.id }}" />
+                                        <input type="hidden" name="cases_id" value="" />
                                         <button type="submit" class="btn btn-danger btn-xs">
                                             <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
                                         </button>
