@@ -89,7 +89,8 @@ def detail(request, cases_id):
     else:
         user = request.user
         cases = get_object_or_404(Cases, pk=cases_id)
-return render(request, 'cases/detail.html', {'cases': cases, 'user': user})       
+    return render(request, 'cases/detail.html', {'cases': cases, 'user': user}) 
+    #hkhfkdhfk      
 
 
 
