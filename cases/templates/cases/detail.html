@@ -1,1 +1,92 @@
-<h1>case is added</h1>
+{% extends 'cases/base.html' %}
+{% block title %}{{ cases }}{% endblock %}
+{% block cases_active %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid songs-container">
+
+    <div class="row">
+
+        <!-- Left Album Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a href="{% url 'cases:detail' cases.id %}">
+                        {% if album.album_logo %}
+                            <img src="{{ cases.cases_logo.url }}" class="img-responsive">
+                        {% else %}
+                            <h3>No image to display</h3>
+                        {% endif %}
+                    </a>
+                    <h1>{{ cases.case_typ }} </h1><br>
+                    <h2>{{ cases.date_added }}</h2><br>
+                    <p>{{ cases.description }}</p>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Song Info -->
+        <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                <li role="presentation" class="active"><a href="{% url 'cases:detail' cases.id %}">All cases</a></li>
+                <li role="presentation"><a href="{% url 'cases:addCases' cases.id %}">Add New case</a></li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <h3>All Cases</h3>
+
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Audio File</th>
+                            <th>Favorite</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for case in cases.all %}
+                            <tr>
+                                <td>{{ case.case_typ }}</td>
+                                <td>
+                                    <a target="_blank" href="{{ song.audio_file.url }}">
+                                        <button type="button" class="btn btn-success btn-xs">
+                                            <span class="glyphicon glyphicon-play"></span>&nbsp; Play
+                                        </button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{% url 'cases:favorite' cases.id %}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if cases.is_favorite %}active{% endif %}"></span></a>
+                                </td>
+                                <td>
+                                    <form action="{% url 'cases:deleteCases' case.id  %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="cases_id" value="{{ cases.id }}" />
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
