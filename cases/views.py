@@ -29,8 +29,6 @@ def register(request):
 
 
 def login_user(request):
-    current_user = request.user
-    return HttpResponse(current_user.username)
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -64,8 +62,8 @@ def addCases(request):
         form = CasesForm(request.POST or None, request.FILES or None)
         if form.is_valid():
             case = form.save(commit=False)
-            case.description = request.description
-            case.case_typ = request.case_typ
+            case.description = request.POST['description']
+            case.case_typ = request.POST['case_typ']
             case.save()
             return render(request, 'cases/detail.html', {'case': case})
         context = {
