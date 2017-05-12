@@ -1,26 +1,55 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-from django.template import loader
-from django.shortcuts import render, get_object_or_404
-
-# Create your views here.
-from django.http import HttpResponse
-#importing the cases model 
+from django.views import generic
 from .models import Cases
+from .forms import UserForm
+from django.shortcuts import render
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
+from django.http import HttpResponse
 
-def index(request):
-	template = loader.get_template('cases/index.html')
-	context = {'all_cases':  Cases.objects.all()}
-	# all_cases = Cases.objects.all()
-	# html = ''
-	# for case in all_cases:
-	# 	url = '/cases/' + str(case.id)
-	# 	html += '<a href="' + url + '">' + case.description + '</a><br>'
-	return HttpResponse(template.render(context, request))
+def register(request):
+    form = UserForm(request.POST or None)
+    if form.is_valid():
+        user = form.save(commit=False)
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user.set_password(password)
+        user.save()
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                cases = Cases.objects.all()
+                return render(request, 'cases/index.html', {'albums': cases})
+    context = {
+        "form": form,
+    }
+    return render(request, 'cases/signup.html', context)
 
-def detail(request, cases_id):
-	try:
-		case = Cases.objects.get(id=cases_id)
-	except Cases.DoesNotExist:
-		raise Http404('Cases Does not exist')
-	return render(request, 'cases/detail.html', {'case':case})
+
+
+
+def login_user(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                cases = Cases.objects.all()
+                return render(request, 'cases/index.html', {'albums': cases})
+            else:
+                return render(request, 'cases/login.html', {'error_message': 'Your account has been disabled'})
+        else:
+            return render(request, 'cases/login.html', {'error_message': 'Invalid login'})
+    return render(request, 'cases/login.html')
+
+
+
+
+
+
+
+
+
+

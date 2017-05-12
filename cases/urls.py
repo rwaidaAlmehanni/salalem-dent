@@ -2,9 +2,8 @@ from django.conf.urls import url
 from .import views
 
 app_name='cases'
+
 urlpatterns = [
-	# Cases
-    url(r'^$', views.index, name='index'),
-    #/ Cases ID
-    url(r'^(?P<cases_id>[0-9]+)$', views.detail, name='detail'),
+	url(r'^register/$', views.register, name='register'),
+	url(r'^login_user/$', views.login_user, name='login_user'),
 ]
