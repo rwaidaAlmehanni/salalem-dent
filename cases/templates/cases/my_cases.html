@@ -12,20 +12,20 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                    {% for case in cases %}
-                    <h1>{{ cases.case_typ }} </h1><br>
-                    <h2>{{ cases.date_added }}</h2><br>
-                    <p>{{ cases.description }}</p>
+                    <h1>{{ case.case_typ }} </h1><br>
+                    <h2>{{ case.date_added }}</h2><br>
+                    <p>{{ case.description }}</p>
                      {% endfor %}
                     
                 </div>
             </div>
         </div>
 
-        <!-- Right Song Info -->
+        <!-- Right Case Info -->
         <div class="col-sm-8 col-md-9">
 
             <ul class="nav nav-pills" style="margin-bottom: 10px;">
-                <li role="presentation" class="active"><a href="{% url 'cases:detail' %}">All cases</a></li>
+                <li role="presentation" class="active"><a href="{% url 'cases:index' %}">All cases</a></li>
                 <li role="presentation"><a href="{% url 'cases:addCases' %}">Add New case</a></li>
             </ul>
 
