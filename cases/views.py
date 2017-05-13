@@ -97,7 +97,7 @@ def delete_cases(request, cases_id):
     case = Cases.objects.get(pk=cases_id)
     case.delete()
     cases = Cases.objects.all()
-    return render(request, 'cases/detail.html', {'cases': cases}) 
+    return render(request, 'cases/my_cases.html', {'cases': cases}) 
 
 
 def my_cases(request):
