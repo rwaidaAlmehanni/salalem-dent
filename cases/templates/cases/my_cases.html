@@ -1,0 +1,87 @@
+{% extends 'cases/base.html' %}
+{% block title %}{{ cases }}{% endblock %}
+{% block cases_active %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid songs-container">
+
+    <div class="row">
+
+        <!-- Left Album Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                   {% for case in cases %}
+                    <h1>{{ cases.case_typ }} </h1><br>
+                    <h2>{{ cases.date_added }}</h2><br>
+                    <p>{{ cases.description }}</p>
+                     {% endfor %}
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Song Info -->
+        <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+                <li role="presentation" class="active"><a href="{% url 'cases:detail' %}">All cases</a></li>
+                <li role="presentation"><a href="{% url 'cases:addCases' %}">Add New case</a></li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <h3>All Cases</h3>
+
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Audio File</th>
+                            <th>Favorite</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for case in cases %}
+                            <tr>
+                                <td>{{ case.case_typ }}</td>
+                                <td>
+                                    <a target="_blank" href="">
+                                        <button type="button" class="btn btn-success btn-xs">
+                                            <span class="glyphicon glyphicon-play"></span>&nbsp; Play
+                                        </button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="" class="btn-favorite"><span class="glyphicon glyphicon-star "></span></a>
+                                </td>
+                                <td>
+                                    <form action="{% url 'cases:delete_cases' case.id  %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="case_id" value="{{ case.id }}" />
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
