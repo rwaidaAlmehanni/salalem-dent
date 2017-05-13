@@ -49,8 +49,26 @@ def login_user(request):
 
 
 def index(request):
-    cases = Cases.objects.all()
-    return render(request, 'cases/index.html', {'cases': cases})
+    if not request.user.is_authenticated():
+    return render(request, 'cases/login.html')
+    else:
+        cases = Cases.objects.filter(owner=request.user)
+        song_results = Cases.objects.all()
+        query = request.GET.get("q")
+        if query:
+            cases = cases.filter(
+                Q(case_typ__icontains=query) |
+                Q(description__icontains=query)
+            ).distinct()
+            song_results = song_results.filter(
+                Q(date_added__icontains=query)
+            ).distinct()
+            return render(request, 'cases/index.html', {
+                'cases': cases,
+                'songs': song_results,
+            })
+        else:
+            return render(request, 'cases/index.html', {'cases': cases})
 
 
 
