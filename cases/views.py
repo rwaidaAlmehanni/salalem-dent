@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.http import HttpResponse
+from django.db.models import Q
 
 def register(request):
     form = UserForm(request.POST or None)
