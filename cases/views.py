@@ -53,7 +53,7 @@ def index(request):
     if not request.user.is_authenticated():
         return render(request, 'cases/login.html')
     else:
-        cases = Cases.objects.filter(owner=request.user)
+        cases = Cases.objects.all()
         song_results = Cases.objects.all()
         query = request.GET.get("q")
         if query:
@@ -107,8 +107,9 @@ def detail(request):
     if not request.user.is_authenticated():
         return render(request, 'cases/login.html')
     else:
-        cases = Cases.objects.all()
-    return render(request, 'cases/detail.html', {'cases':cases}) 
+        user = request.user
+        cases = get_object_or_404(Cases, pk=cases_id)
+    return render(request, 'cases/detail.html', {'cases':cases,'user':user}) 
 
 
 
