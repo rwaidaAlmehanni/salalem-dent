@@ -38,7 +38,7 @@ def login_user(request):
                 login(request, user)
                 cases = Cases.objects.all()
 
-                return render(request, 'cases/index.html', {'cases': cases})
+                return render(request, 'cases/detail.html', {'cases': cases})
             else:
                 return render(request, 'cases/login.html', {'error_message': 'Your account has been disabled'})
         else:
@@ -88,16 +88,15 @@ def detail(request):
     if not request.user.is_authenticated():
         return render(request, 'cases/login.html')
     else:
-       
         cases = Cases.objects.all()
     return render(request, 'cases/detail.html', {'cases':cases}) 
 
 
 
-def delete_case(request, cases_id):
+def delete_cases(request, cases_id):
     case = Cases.objects.get(pk=cases_id)
     case.delete()
-    cases = Cases.objects.filter(user=request.user)
+    cases = Cases.objects.all()
     return render(request, 'cases/detail.html', {'cases': cases})    
 
 
