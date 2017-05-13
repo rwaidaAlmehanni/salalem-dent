@@ -50,7 +50,7 @@ def login_user(request):
 
 def index(request):
     if not request.user.is_authenticated():
-    return render(request, 'cases/login.html')
+        return render(request, 'cases/login.html')
     else:
         cases = Cases.objects.filter(owner=request.user)
         song_results = Cases.objects.all()
