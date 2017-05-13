@@ -94,6 +94,14 @@ def detail(request):
 
 
 
+def delete_case(request, cases_id):
+    case = Cases.objects.get(pk=cases_id)
+    case.delete()
+    cases = Cases.objects.filter(user=request.user)
+    return render(request, 'cases/detail.html', {'cases': cases})    
+
+
+
 
 
 
