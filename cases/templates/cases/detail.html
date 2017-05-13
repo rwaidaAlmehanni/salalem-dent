@@ -7,6 +7,7 @@
 
     <div class="row">
 
+        <!-- Left Album Info -->
         <div class="col-sm-4 col-md-3">
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -19,7 +20,7 @@
         <div class="col-sm-8 col-md-9">
 
             <ul class="nav nav-pills" style="margin-bottom: 10px;">
-                <li role="presentation" class="active"><a href="{% url 'cases:detail' case.id%}">All cases</a></li>
+                <li role="presentation" class="active"><a href="{% url 'cases:index' %}">All cases</a></li>
             </ul>
 
             <div class="panel panel-default">
@@ -31,42 +32,22 @@
                         <p><strong>{{ error_message }}</strong></p>
                     {% endif %}
 
-<!--                     <table class="table">
+                    <table class="table">
                         <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Audio File</th>
-                            <th>Favorite</th>
-                            <th>Actions</th>
+                            <th>Type</th>
+                            <th>description</th>
+                            <th>Date_Added</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for case in cases %}
                             <tr>
                                 <td>{{ case.case_typ }}</td>
-                                <td>
-                                    <a target="_blank" href="">
-                                        <button type="button" class="btn btn-success btn-xs">
-                                            <span class="glyphicon glyphicon-play"></span>&nbsp; Play
-                                        </button>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="" class="btn-favorite"><span class="glyphicon glyphicon-star "></span></a>
-                                </td>
-                                <td>
-                                    <form action="{% url 'cases:delete_cases' case.id  %}" method="post" style="display: inline;">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="case_id" value="{{ case.id }}" />
-                                        <button type="submit" class="btn btn-danger btn-xs">
-                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
-                                        </button>
-                                    </form>
-                                </td>
+                                <td>{{case.description}}</td>
+                                <td>{{case.date_added}}</td>
                             </tr>
-                        {% endfor %}
                         </tbody>
-                    </table> -->
+                    </table>
 
                 </div>
             </div>
