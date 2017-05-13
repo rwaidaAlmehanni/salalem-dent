@@ -103,13 +103,13 @@ def logout_user(request):
 
 
 
-def detail(request):
+def detail(request, cases_id):
     if not request.user.is_authenticated():
         return render(request, 'cases/login.html')
     else:
-        user = request.user
-        cases = get_object_or_404(Cases, pk=cases_id)
-    return render(request, 'cases/detail.html', {'cases':cases,'user':user}) 
+        owner = request.user
+        case = get_object_or_404(Cases, pk=cases_id)
+    return render(request, 'cases/detail.html', {'case':case,'owner':owner}) 
 
 
 
@@ -124,8 +124,8 @@ def my_cases(request):
     if not request.user.is_authenticated():
         return render(request, 'cases/login.html')
     else:
-         cases = Cases.objects.filter(owner=request.user.id)
-         return render(request, 'cases/my_cases.html', {'cases': cases})         
+        cases = Cases.objects.filter(owner=request.user.id)
+    return render(request, 'cases/my_cases.html', {'cases': cases})         
 
 
 

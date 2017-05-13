@@ -11,12 +11,15 @@
         <div class="col-sm-4 col-md-3">
             <div class="panel panel-default">
                 <div class="panel-body">
-                   {% for case in cases %}
-                    <h1>{{ cases.case_typ }} </h1><br>
-                    <h2>{{ cases.date_added }}</h2><br>
-                    <p>{{ cases.description }}</p>
-                     {% endfor %}
-                    
+                    <a href="{% url 'cases:detail' case.id %}">
+                        {% if case.case_logo %}
+                            <img src="" class="img-responsive">
+                        {% else %}
+                            <h3>No image to display</h3>
+                        {% endif %}
+                    </a>
+                    <h1>{{ case.date_added }} <small>{{ case.case_typ}}</small></h1>
+                    <h2>{{ case.description }}</h2>
                 </div>
             </div>
         </div>
@@ -39,7 +42,7 @@
                         <p><strong>{{ error_message }}</strong></p>
                     {% endif %}
 
-                    <table class="table">
+<!--                     <table class="table">
                         <thead>
                         <tr>
                             <th>Title</th>
@@ -74,7 +77,7 @@
                             </tr>
                         {% endfor %}
                         </tbody>
-                    </table>
+                    </table> -->
 
                 </div>
             </div>
