@@ -54,19 +54,19 @@ def index(request):
         return render(request, 'cases/login.html')
     else:
         cases = Cases.objects.all()
-        song_results = Cases.objects.all()
+        searchCase = Cases.objects.all()
         query = request.GET.get("q")
         if query:
             cases = cases.filter(
                 Q(case_typ__icontains=query) |
                 Q(description__icontains=query)
             ).distinct()
-            song_results = song_results.filter(
+            searchCase = searchCase.filter(
                 Q(date_added__icontains=query)
             ).distinct()
             return render(request, 'cases/index.html', {
                 'cases': cases,
-                'songs': song_results,
+                'searchCase': searchCase,
             })
         else:
             return render(request, 'cases/index.html', {'cases': cases})
@@ -125,7 +125,25 @@ def my_cases(request):
         return render(request, 'cases/login.html')
     else:
         cases = Cases.objects.filter(owner=request.user.id)
-    return render(request, 'cases/my_cases.html', {'cases': cases})         
+    return render(request, 'cases/my_cases.html', {'cases': cases}) 
+
+
+def update_cases(request):
+    if not request.user.is_authenticated():
+        return render(request, 'cases/update_cases.html')
+    else:
+        form = CasesForm(request.POST or None, request.FILES or None)
+        if form.is_valid():
+            case = form.save(commit=False)
+            case.description = request.POST['description']
+            case.case_typ = request.POST['case_typ']
+            case.owner = request.user.id
+            case.save()
+            return render(request, 'cases/my_cases.html', {'case': case})
+        context = {
+            "form": form,
+        }
+        return render(request, 'cases/update_cases.html', context)        
 
 
 

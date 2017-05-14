@@ -4,7 +4,7 @@
 {% block body %}
 <div class="cases-container container-fluid">
 
-    <!-- Albums -->
+    <!-- Cases -->
     <div class="row">
         <div class="col-sm-12">
             <h3>All the Cases</h3>
@@ -44,8 +44,8 @@
         {% endif %}
     </div>
 
-    <!-- If user searches and there are songs -->
-    {% if songs %}
+    <!-- If user searches and there are searchCase -->
+    {% if searchCase %}
         <div class="row">
             <div class="col-sm-12">
                 <h3>Cases</h3>
@@ -56,15 +56,14 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Song Title</th>
-                                    <th>Artist</th>
-                                    <th>Audio File</th>
-                                    <th>Album</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Date_added</th>
                                     <th>Favorite</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for case in songs %}
+                                {% for case in searchCase %}
                                     <tr>
                                         <td>{{ case.case_typ }}</td>
                                         <td>{{ case.date_added }}</td>
