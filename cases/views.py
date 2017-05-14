@@ -128,13 +128,13 @@ def my_cases(request):
     return render(request, 'cases/my_cases.html', {'cases': cases}) 
 
 
-def update_cases(request):
+def update_cases(request, cases_id):
     if not request.user.is_authenticated():
         return render(request, 'cases/update_cases.html')
     else:
         form = CasesForm(request.POST or None, request.FILES or None)
         if form.is_valid():
-            case = form.save(commit=False)
+            case = Cases.objects.get(pk=cases_id)
             case.description = request.POST['description']
             case.case_typ = request.POST['case_typ']
             case.owner = request.user.id

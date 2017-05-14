@@ -12,6 +12,6 @@ urlpatterns = [
 	url(r'^my_cases/$', views.my_cases, name='my_cases'),
 	url(r'^(?P<cases_id>[0-9]+)/detail/$', views.detail, name='detail'),
 	url(r'^(?P<cases_id>[0-9]+)/delete_cases/$', views.delete_cases, name='delete_cases'),
-	url(r'^update_cases/$', views.update_cases, name='update_cases'),
+	url(r'^(?P<cases_id>[0-9]+)/update_cases/$', views.update_cases, name='update_cases'),
 	 
 ]

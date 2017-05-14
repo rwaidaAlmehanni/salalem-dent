@@ -38,7 +38,8 @@
                             <th>Type</th>
                             <th>Description</th>
                             <th>Date_added</th>
-                            <th>Actions</th>
+                            <th>Update</th>
+                            <th>Delete</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -47,6 +48,17 @@
                                 <td>{{ case.case_typ }}</td>
                                 <td>{{ case.description }}</td>
                                 <td>{{ case.date_added }}</td>
+
+                                 <td>
+                                    <form action="{% url 'cases:update_cases' case.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="case_id" value="{{ case.id }}" />
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Update
+                                        </button>
+                                    </form>
+                                </td>
+
                                 
                                 <td>
                                     <form action="{% url 'cases:delete_cases' case.id  %}" method="post" style="display: inline;">
