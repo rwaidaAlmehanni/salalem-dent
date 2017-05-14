@@ -39,7 +39,7 @@ def login_user(request):
                 login(request, user)
                 cases = Cases.objects.all()
 
-                return render(request, 'cases/detail.html', {'cases': cases})
+                return render(request, 'cases/index.html', {'cases': cases})
             else:
                 return render(request, 'cases/login.html', {'error_message': 'Your account has been disabled'})
         else:
