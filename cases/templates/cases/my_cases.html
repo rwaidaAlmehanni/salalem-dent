@@ -1,4 +1,4 @@
-{% extends 'cases/base.html' %}
+{% extends 'cases/base_visitor2.html' %}
 {% block title %}{{ cases }}{% endblock %}
 {% block cases_active %}active{% endblock %}
 
@@ -53,8 +53,8 @@
                                     <form action="{% url 'cases:update_cases' case.id %}" method="post" style="display: inline;">
                                         {% csrf_token %}
                                         <input type="hidden" name="case_id" value="{{ case.id }}" />
-                                        <button type="submit" class="btn btn-danger btn-xs">
-                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Update
+                                        <button type="submit" class="btn btn-success btn-xs">
+                                            <span class="glyphicon glyphicon-update"></span>&nbsp; Update
                                         </button>
                                     </form>
                                 </td>
